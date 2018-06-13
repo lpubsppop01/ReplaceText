@@ -1,8 +1,8 @@
 version: 0.0.{build}
 image: Visual Studio 2017
 build_script:
-  - ps: dotnet publish -c release -r win-x64
+  - ps: dotnet publish -c release -r win-x64 -o ..\ReplaceText-win-x64
 after_build:
-  - 7z a ReplaceText-win-x64.zip ReplaceText\bin\Release\netcoreapp2.0\win-x64\publish
+  - 7z a ReplaceText-win-x64.zip ReplaceText-win-x64
 artifacts:
   - path: ReplaceText-win-x64.zip
