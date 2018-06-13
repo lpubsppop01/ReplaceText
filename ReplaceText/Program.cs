@@ -32,6 +32,10 @@ namespace lpubsppop01.ReplaceText
                     {
                         paths.Add(value);
                     }
+                    else
+                    {
+                        Console.WriteLine("Error: Neither operator nor valid path: " + value);
+                    }
                 });
                 if (replaceOption.HasValue())
                 {

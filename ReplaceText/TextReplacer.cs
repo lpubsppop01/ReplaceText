@@ -148,11 +148,8 @@ namespace lpubsppop01.ReplaceText
                         string kindLabel = node.IsDirectory ? "directory name" : "filename";
                         string origPath = node.Path;
                         node.Name = result;
-                        if (actionKind == TextReplacerActionKind.StandardOutput)
-                        {
-                            Console.WriteLine("Replace {0} \"{1}\" to \"{2}\"", kindLabel, origPath, node.Path);
-                        }
-                        else if (actionKind == TextReplacerActionKind.Replace)
+                        Console.WriteLine("Replace {0} \"{1}\" to \"{2}\"", kindLabel, origPath, node.Path);
+                        if (actionKind == TextReplacerActionKind.Replace)
                         {
                             if (node.IsDirectory)
                             {
@@ -194,16 +191,10 @@ namespace lpubsppop01.ReplaceText
                         {
                             if (!replaced)
                             {
-                                if (actionKind == TextReplacerActionKind.StandardOutput)
-                                {
-                                    Console.WriteLine("Replace \"{0}\" content:", node.Name, i + 1, lines[i], result);
-                                }
+                                Console.WriteLine("Replace \"{0}\" content:", node.Name, i + 1, lines[i], result);
                                 replaced = true;
                             }
-                            if (actionKind == TextReplacerActionKind.StandardOutput)
-                            {
-                                Console.WriteLine("{0}:{1}", i + 1, result);
-                            }
+                            Console.WriteLine("{0}:{1}", i + 1, result);
                         }
                         destLines.Add(result);
                     }
