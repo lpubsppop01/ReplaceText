@@ -73,6 +73,7 @@ namespace lpubsppop01.ReplaceText
                 {
                     var token = tokens.First();
                     tokens = tokens.Skip(1).ToArray();
+                    if (token == "") continue;
                     PathTreeNode child;
                     if (!curr.Children.TryGetValue(token, out child))
                     {
@@ -88,7 +89,6 @@ namespace lpubsppop01.ReplaceText
                     else
                     {
                         curr.IsTarget = true;
-
                     }
                 }
                 if (isDirectory)
