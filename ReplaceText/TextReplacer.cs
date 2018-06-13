@@ -141,7 +141,7 @@ namespace lpubsppop01.ReplaceText
                     string result = node.Name;
                     foreach (var op in ops)
                     {
-                        result = Regex.Replace(node.Name, op.SearchPattern, op.Replacement);
+                        result = Regex.Replace(result, op.SearchPattern, op.Replacement);
                     }
                     if (result != node.Name)
                     {
@@ -188,7 +188,7 @@ namespace lpubsppop01.ReplaceText
                         string result = lines[i];
                         foreach (var op in ops)
                         {
-                            result = Regex.Replace(lines[i], op.SearchPattern, op.Replacement);
+                            result = Regex.Replace(result, op.SearchPattern, op.Replacement);
                         }
                         if (result != lines[i])
                         {
