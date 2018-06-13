@@ -1,4 +1,4 @@
-# Local Note
+# Replace Text
 
 A CLI tool to replace part of file contents, file names and directory names.
 
