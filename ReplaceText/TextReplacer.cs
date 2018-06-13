@@ -16,14 +16,14 @@ namespace lpubsppop01.ReplaceText
 
     class TextReplacer
     {
-        IList<(string from, string to)> ops;
+        IList<Operator> ops;
 
-        public TextReplacer(IList<(string from, string to)> ops)
+        public TextReplacer(IList<Operator> ops)
         {
             this.ops = ops;
         }
 
-        public void Replace(string[] paths, TextReplacerActionKind actionKind)
+        public void Replace(IList<string> paths, TextReplacerActionKind actionKind)
         {
             var root = BuildPathTree(paths);
             Replace(root, actionKind);
@@ -55,7 +55,7 @@ namespace lpubsppop01.ReplaceText
             public string OriginalPath;
         }
 
-        static PathTreeNode BuildPathTree(string[] paths)
+        static PathTreeNode BuildPathTree(IList<string> paths)
         {
             var root = new PathTreeNode();
             foreach (string path in paths)
@@ -141,7 +141,7 @@ namespace lpubsppop01.ReplaceText
                     string result = node.Name;
                     foreach (var op in ops)
                     {
-                        result = Regex.Replace(node.Name, op.from, op.to);
+                        result = Regex.Replace(node.Name, op.SearchPattern, op.Replacement);
                     }
                     if (result != node.Name)
                     {
@@ -188,7 +188,7 @@ namespace lpubsppop01.ReplaceText
                         string result = lines[i];
                         foreach (var op in ops)
                         {
-                            result = Regex.Replace(lines[i], op.from, op.to);
+                            result = Regex.Replace(lines[i], op.SearchPattern, op.Replacement);
                         }
                         if (result != lines[i])
                         {

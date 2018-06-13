@@ -3,3 +3,4 @@ obj/
 launchSettings.json
 ReplaceText-win-x64.zip
 ReplaceText-win-x64/
+.vs/
