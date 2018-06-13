@@ -137,77 +137,80 @@ namespace lpubsppop01.ReplaceText
             }
             else
             {
+                if (node.IsTarget)
                 {
-                    string result = node.Name;
-                    foreach (var op in ops)
                     {
-                        result = Regex.Replace(result, op.SearchPattern, op.Replacement);
-                    }
-                    if (result != node.Name)
-                    {
-                        string kindLabel = node.IsDirectory ? "Directory name" : "Filename";
-                        string origPath = node.Path;
-                        node.Name = result;
-                        Console.WriteLine("{0}:", kindLabel);
-                        Console.WriteLine("  From: {0}", origPath);
-                        Console.WriteLine("  To  : {0}", node.Path);
-                        if (actionKind == TextReplacerActionKind.Replace)
-                        {
-                            if (node.IsDirectory)
-                            {
-                                Directory.Move(node.OriginalPath, node.Path);
-                            }
-                            else
-                            {
-                                File.Move(node.OriginalPath, node.Path);
-
-                            }
-                        }
-                        else if (actionKind == TextReplacerActionKind.Genearte)
-                        {
-                            if (node.IsDirectory)
-                            {
-                                Directory.CreateDirectory(node.Path);
-                            }
-                            else
-                            {
-                                File.Copy(node.OriginalPath, node.Path);
-                            }
-                        }
-                    }
-                }
-                if (!node.IsDirectory)
-                {
-                    bool replaced = false;
-                    string srcPath = actionKind == TextReplacerActionKind.Replace ? node.Path : node.OriginalPath;
-                    var lines = File.ReadAllLines(srcPath);
-                    var destLines = new List<string>();
-                    for (int i = 0; i < lines.Length; ++i)
-                    {
-                        string result = lines[i];
+                        string result = node.Name;
                         foreach (var op in ops)
                         {
                             result = Regex.Replace(result, op.SearchPattern, op.Replacement);
                         }
-                        if (result != lines[i])
+                        if (result != node.Name)
                         {
-                            if (!replaced)
+                            string kindLabel = node.IsDirectory ? "Directory name" : "Filename";
+                            string origPath = node.Path;
+                            node.Name = result;
+                            Console.WriteLine("{0}:", kindLabel);
+                            Console.WriteLine("  From: {0}", origPath);
+                            Console.WriteLine("  To  : {0}", node.Path);
+                            if (actionKind == TextReplacerActionKind.Replace)
                             {
-                                Console.WriteLine("Content of \"{0}\":", node.Name);
-                                replaced = true;
+                                if (node.IsDirectory)
+                                {
+                                    Directory.Move(node.OriginalPath, node.Path);
+                                }
+                                else
+                                {
+                                    File.Move(node.OriginalPath, node.Path);
+
+                                }
                             }
-                            Console.WriteLine("  {0:0000}: {1}", i + 1, result);
-                        }
-                        destLines.Add(result);
-                    }
-                    if (actionKind == TextReplacerActionKind.Replace && replaced ||
-                        actionKind == TextReplacerActionKind.Genearte)
-                    {
-                        using (var writer = new StreamWriter(node.Path, /* append: */ false, new UTF8Encoding(false)))
-                        {
-                            foreach (var l in destLines)
+                            else if (actionKind == TextReplacerActionKind.Genearte)
                             {
-                                writer.WriteLine(l);
+                                if (node.IsDirectory)
+                                {
+                                    Directory.CreateDirectory(node.Path);
+                                }
+                                else
+                                {
+                                    File.Copy(node.OriginalPath, node.Path);
+                                }
+                            }
+                        }
+                    }
+                    if (!node.IsDirectory)
+                    {
+                        bool replaced = false;
+                        string srcPath = actionKind == TextReplacerActionKind.Replace ? node.Path : node.OriginalPath;
+                        var lines = File.ReadAllLines(srcPath);
+                        var destLines = new List<string>();
+                        for (int i = 0; i < lines.Length; ++i)
+                        {
+                            string result = lines[i];
+                            foreach (var op in ops)
+                            {
+                                result = Regex.Replace(result, op.SearchPattern, op.Replacement);
+                            }
+                            if (result != lines[i])
+                            {
+                                if (!replaced)
+                                {
+                                    Console.WriteLine("Content of \"{0}\":", node.Name);
+                                    replaced = true;
+                                }
+                                Console.WriteLine("  {0:0000}: {1}", i + 1, result);
+                            }
+                            destLines.Add(result);
+                        }
+                        if (actionKind == TextReplacerActionKind.Replace && replaced ||
+                            actionKind == TextReplacerActionKind.Genearte)
+                        {
+                            using (var writer = new StreamWriter(node.Path, /* append: */ false, new UTF8Encoding(false)))
+                            {
+                                foreach (var l in destLines)
+                                {
+                                    writer.WriteLine(l);
+                                }
                             }
                         }
                     }
