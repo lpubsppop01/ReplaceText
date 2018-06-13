@@ -198,7 +198,8 @@ namespace lpubsppop01.ReplaceText
                         }
                         destLines.Add(result);
                     }
-                    if (actionKind == TextReplacerActionKind.Replace || actionKind == TextReplacerActionKind.Genearte)
+                    if (actionKind == TextReplacerActionKind.Replace && replaced ||
+                        actionKind == TextReplacerActionKind.Genearte)
                     {
                         using (var writer = new StreamWriter(node.Path, /* append: */ false, new UTF8Encoding(false)))
                         {
