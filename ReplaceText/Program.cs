@@ -3,6 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("lpubsppop01.ReplaceText.Tests")]
 
 namespace lpubsppop01.ReplaceText
 {
