@@ -16,11 +16,11 @@ namespace lpubsppop01.ReplaceText
 
     class TextReplacer
     {
-        IList<Operator> ops;
+        IList<Command> commands;
 
-        public TextReplacer(IList<Operator> ops)
+        public TextReplacer(IList<Command> commands)
         {
-            this.ops = ops;
+            this.commands = commands;
         }
 
         public void Replace(IList<string> paths, TextReplacerActionKind actionKind)
@@ -141,9 +141,9 @@ namespace lpubsppop01.ReplaceText
                 {
                     {
                         string result = node.Name;
-                        foreach (var op in ops)
+                        foreach (var command in commands)
                         {
-                            result = Regex.Replace(result, op.SearchPattern, op.Replacement);
+                            result = Regex.Replace(result, command.Pattern, command.Replacement);
                         }
                         if (result != node.Name)
                         {
@@ -187,9 +187,9 @@ namespace lpubsppop01.ReplaceText
                         for (int i = 0; i < lines.Length; ++i)
                         {
                             string result = lines[i];
-                            foreach (var op in ops)
+                            foreach (var command in commands)
                             {
-                                result = Regex.Replace(result, op.SearchPattern, op.Replacement);
+                                result = Regex.Replace(result, command.Pattern, command.Replacement);
                             }
                             if (result != lines[i])
                             {

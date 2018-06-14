@@ -16,17 +16,17 @@ namespace lpubsppop01.ReplaceText
             app.HelpOption("-h|--help");
             var replaceOption = app.Option("-r|--replace", "Replace matched part", CommandOptionType.NoValue);
             var generateOption = app.Option("-g|--generate", "Generate new files that matched part is replaced", CommandOptionType.NoValue);
-            var opOrPathArg = app.Argument("op_or_path", "sed like operator / target file or directory path", multipleValues: true);
+            var commandOrPathArg = app.Argument("command_or_path", "sed like command / target file or directory path", multipleValues: true);
             app.OnExecute(() =>
             {
-                var ops = new List<Operator>();
+                var commands = new List<Command>();
                 var paths = new List<string>();
                 var actionKind = TextReplacerActionKind.StandardOutput;
-                opOrPathArg.Values.ForEach((value) =>
+                commandOrPathArg.Values.ForEach((value) =>
                 {
-                    if (OperatorParser.TryParse(value, out var op))
+                    if (CommandParser.TryParse(value, out var command))
                     {
-                        ops.Add(op);
+                        commands.Add(command);
                     }
                     else if (File.Exists(value) || Directory.Exists(value))
                     {
@@ -34,7 +34,7 @@ namespace lpubsppop01.ReplaceText
                     }
                     else
                     {
-                        Console.WriteLine("Error: Neither operator nor valid path: " + value);
+                        Console.WriteLine("Error: Neither command nor valid path: " + value);
                     }
                 });
                 if (replaceOption.HasValue())
@@ -45,13 +45,13 @@ namespace lpubsppop01.ReplaceText
                 {
                     actionKind = TextReplacerActionKind.Genearte;
                 }
-                if (!ops.Any() || !paths.Any())
+                if (!commands.Any() || !paths.Any())
                 {
-                    Console.Write("Error: Operator and path are required at least each one.");
+                    Console.Write("Error: Command and path are required at least each one.");
                     app.ShowHelp();
                     return 1;
                 }
-                var replacer = new TextReplacer(ops);
+                var replacer = new TextReplacer(commands);
                 replacer.Replace(paths, actionKind);
                 return 0;
             });

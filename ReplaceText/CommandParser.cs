@@ -5,58 +5,58 @@ using System.Text;
 
 namespace lpubsppop01.ReplaceText
 {
-    enum OperatorKind
+    enum CommandKind
     {
         Substitute
     }
 
     [Flags]
-    enum OperatorFlags
+    enum CommandFlags
     {
         None = 0,
         Global = 1 << 0,
     }
 
-    class Operator
+    class Command
     {
-        public OperatorKind Kind { get; set; }
-        public string SearchPattern { get; set; }
+        public CommandKind Kind { get; set; }
+        public string Pattern { get; set; }
         public string Replacement { get; set; }
-        public OperatorFlags Flags { get; set; }
+        public CommandFlags Flags { get; set; }
     }
 
-    static class OperatorParser
+    static class CommandParser
     {
-        public static bool TryParse(string opText, out Operator op)
+        public static bool TryParse(string text, out Command command)
         {
-            op = null;
-            var tokens = SplitBySeprator(opText).ToArray();
+            command = null;
+            var tokens = SplitBySeprator(text).ToArray();
             if (tokens.Length != 4) return false;
             if (tokens[0] != "s") return false;
             if (tokens[3] != "g") return false;
-            op = new Operator
+            command = new Command
             {
-                Kind = OperatorKind.Substitute,
-                SearchPattern = tokens[1],
+                Kind = CommandKind.Substitute,
+                Pattern = tokens[1],
                 Replacement = tokens[2],
-                Flags = OperatorFlags.Global
+                Flags = CommandFlags.Global
             };
             return true;
         }
 
-        static IEnumerable<string> SplitBySeprator(string opText)
+        static IEnumerable<string> SplitBySeprator(string text)
         {
             var buf = new StringBuilder();
-            for (int i = 0; i < opText.Length; ++i)
+            for (int i = 0; i < text.Length; ++i)
             {
-                if (opText[i] == '/' && (i == 0 || opText[i - 1] != '\\'))
+                if (text[i] == '/' && (i == 0 || text[i - 1] != '\\'))
                 {
                     yield return buf.ToString();
                     buf.Clear();
                 }
                 else
                 {
-                    buf.Append(opText[i]);
+                    buf.Append(text[i]);
                 }
             }
             yield return buf.ToString();
