@@ -4,12 +4,12 @@ using Xunit;
 
 namespace lpubsppop01.ReplaceText.Tests
 {
-    public class CommandParser_TryParseShould
+    public class Command_TryParseShould
     {
         [Fact]
         public void ReturnTrueGivenSubstituteGlobalCommand()
         {
-            Assert.True(CommandParser.TryParse("s/hoge/piyo/g", out var command));
+            Assert.True(Command.TryParse("s/hoge/piyo/g", out var command));
         }
     }
 }

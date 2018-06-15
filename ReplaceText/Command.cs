@@ -23,10 +23,7 @@ namespace lpubsppop01.ReplaceText
         public string Pattern { get; set; }
         public string Replacement { get; set; }
         public CommandFlags Flags { get; set; }
-    }
 
-    static class CommandParser
-    {
         public static bool TryParse(string text, out Command command)
         {
             command = null;

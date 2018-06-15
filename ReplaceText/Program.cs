@@ -23,39 +23,35 @@ namespace lpubsppop01.ReplaceText
             app.OnExecute(() =>
             {
                 var commands = new List<Command>();
-                var paths = new List<string>();
-                var actionKind = TextReplacerActionKind.StandardOutput;
+                var pathTree = new PathTree();
+                var actionKind = CommandRunnerActionKind.None;
                 commandOrPathArg.Values.ForEach((value) =>
                 {
-                    if (CommandParser.TryParse(value, out var command))
+                    if (Command.TryParse(value, out var command))
                     {
                         commands.Add(command);
                     }
-                    else if (File.Exists(value) || Directory.Exists(value))
+                    else if (!pathTree.TryAdd(value, out string errorMessage))
                     {
-                        paths.Add(value);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Error: Neither command nor valid path: " + value);
+                        Console.WriteLine(errorMessage);
                     }
                 });
                 if (replaceOption.HasValue())
                 {
-                    actionKind = TextReplacerActionKind.Replace;
+                    actionKind = CommandRunnerActionKind.Replace;
                 }
                 if (generateOption.HasValue())
                 {
-                    actionKind = TextReplacerActionKind.Genearte;
+                    actionKind = CommandRunnerActionKind.Genearte;
                 }
-                if (!commands.Any() || !paths.Any())
+                if (!commands.Any() || !pathTree.HasValue)
                 {
-                    Console.Write("Error: Command and path are required at least each one.");
+                    Console.WriteLine("Error: Command and path are required at least each one.");
                     app.ShowHelp();
                     return 1;
                 }
-                var replacer = new TextReplacer(commands);
-                replacer.Replace(paths, actionKind);
+                var runner = new CommandRunner(commands);
+                runner.Run(pathTree, actionKind);
                 return 0;
             });
             app.Execute(args);
