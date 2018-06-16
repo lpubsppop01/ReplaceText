@@ -55,5 +55,23 @@ namespace lpubsppop01.ReplaceText.Tests
             var pathTree = new PathTree();
             Assert.False(pathTree.TryAdd(NotExistingPath, out string errorMessage));
         }
+
+        [Fact]
+        public void MergePassedPaths()
+        {
+            string currentDirectoryBackup = Directory.GetCurrentDirectory();
+            Directory.SetCurrentDirectory(TestDataPath);
+            try
+            {
+                var pathTree = new PathTree();
+                Assert.True(pathTree.TryAdd(@"Hoge\Hoge.txt", out string errorMessage1));
+                Assert.True(pathTree.TryAdd(Path.Combine(TestDataPath, @"Hoge"), out string errorMessage2));
+                Assert.Equal(pathTree.FindNode(@"Hoge\Hoge.txt"), pathTree.FindNode(Path.Combine(TestDataPath, @"Hoge\Hoge.txt")));
+            }
+            finally
+            {
+                Directory.SetCurrentDirectory(currentDirectoryBackup);
+            }
+        }
     }
 }
