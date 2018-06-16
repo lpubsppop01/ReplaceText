@@ -48,11 +48,11 @@ namespace lpubsppop01.ReplaceText
             {
                 if (node.IsDirectory)
                 {
-                    Directory.Move(node.OriginalPath, node.Path);
+                    Directory.Move(prevPath, node.Path);
                 }
                 else
                 {
-                    File.Move(node.OriginalPath, node.Path);
+                    File.Move(prevPath, node.Path);
                 }
             }
             else if (actionKind == CommandRunnerActionKind.Genearte)
