@@ -57,7 +57,8 @@ namespace lpubsppop01.ReplaceText
                 errorMessage = "Not found: " + path;
                 return false;
             }
-            var tokens = path.Split(Path.DirectorySeparatorChar);
+            string absPath = Path.GetFullPath(path);
+            var tokens = absPath.Split(Path.DirectorySeparatorChar);
             var curr = Root;
             while (tokens.Any())
             {
@@ -75,7 +76,7 @@ namespace lpubsppop01.ReplaceText
             }
             if (curr.IsDirectory)
             {
-                TraverseDirectory(curr, path);
+                TraverseDirectory(curr, absPath);
             }
             errorMessage = "";
             return true;
@@ -110,7 +111,8 @@ namespace lpubsppop01.ReplaceText
 
         public PathTreeNode FindNode(string path)
         {
-            var tokens = path.Split(Path.DirectorySeparatorChar);
+            string absPath = Path.GetFullPath(path);
+            var tokens = absPath.Split(Path.DirectorySeparatorChar);
             var curr = Root;
             while (tokens.Any())
             {
