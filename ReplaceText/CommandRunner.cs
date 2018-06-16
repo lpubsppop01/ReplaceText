@@ -75,6 +75,7 @@ namespace lpubsppop01.ReplaceText
             bool replaced = false;
             string srcPath = actionKind == CommandRunnerActionKind.Replace ? node.Path : node.OriginalPath;
             (var srcEncoding, var srcNewLine) = EncodingDetector.Detect(srcPath);
+            if (srcEncoding == null || srcNewLine == null) return;
             var lines = MyFileReader.ReadAllLines(srcPath, srcEncoding, srcNewLine);
             var destLines = new List<string>();
             for (int i = 0; i < lines.Count; ++i)

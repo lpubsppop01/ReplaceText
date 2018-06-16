@@ -18,6 +18,7 @@ namespace lpubsppop01.ReplaceText
             using (var reader = new Hnx8.ReadJEnc.FileReader(file))
             {
                 var charCode = reader.Read(file);
+                if (reader.Text == null) return (null, null);
                 var encoding = charCode.GetEncoding();
                 var newLine = (reader.Text.DetectNewLineKind() ?? NewLineKind.CRLF).ToNewLineString();
                 return (encoding, newLine);
