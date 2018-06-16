@@ -74,7 +74,8 @@ namespace lpubsppop01.ReplaceText
 
             bool replaced = false;
             string srcPath = actionKind == CommandRunnerActionKind.Replace ? node.Path : node.OriginalPath;
-            var lines = File.ReadAllLines(srcPath);
+            (var srcEncoding, var srcNewLine) = EncodingDetector.Detect(srcPath);
+            var lines = File.ReadAllLines(srcPath, srcEncoding);
             var destLines = new List<string>();
             for (int i = 0; i < lines.Length; ++i)
             {
@@ -92,9 +93,9 @@ namespace lpubsppop01.ReplaceText
             if (actionKind == CommandRunnerActionKind.Replace && replaced ||
                 actionKind == CommandRunnerActionKind.Genearte)
             {
-                using (var writer = new StreamWriter(node.Path, /* append: */ false, new UTF8Encoding(false)))
+                using (var writer = new StreamWriter(node.Path, /* append: */ false, srcEncoding))
                 {
-                    destLines.ForEach(l => writer.WriteLine(l));
+                    destLines.ForEach(l => writer.Write(l + srcNewLine));
                 }
             }
         }
