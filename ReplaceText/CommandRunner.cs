@@ -75,9 +75,9 @@ namespace lpubsppop01.ReplaceText
             bool replaced = false;
             string srcPath = actionKind == CommandRunnerActionKind.Replace ? node.Path : node.OriginalPath;
             (var srcEncoding, var srcNewLine) = EncodingDetector.Detect(srcPath);
-            var lines = File.ReadAllLines(srcPath, srcEncoding);
+            var lines = MyFileReader.ReadAllLines(srcPath, srcEncoding, srcNewLine);
             var destLines = new List<string>();
-            for (int i = 0; i < lines.Length; ++i)
+            for (int i = 0; i < lines.Count; ++i)
             {
                 string resultLine = commands.Aggregate(lines[i], (l, c) => Regex.Replace(l, c.Pattern, c.Replacement));
                 destLines.Add(resultLine);
@@ -95,7 +95,10 @@ namespace lpubsppop01.ReplaceText
             {
                 using (var writer = new StreamWriter(node.Path, /* append: */ false, srcEncoding))
                 {
-                    destLines.ForEach(l => writer.Write(l + srcNewLine));
+                    for (int i = 0; i < destLines.Count; ++i)
+                    {
+                        writer.Write(destLines[i] + ((i != destLines.Count - 1) ? srcNewLine : ""));
+                    }
                 }
             }
         }

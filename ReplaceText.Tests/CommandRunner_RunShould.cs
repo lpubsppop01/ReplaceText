@@ -65,5 +65,24 @@ namespace lpubsppop01.ReplaceText.Tests
                 Assert.Equal(srcNewLine, newLine);
             }
         }
+
+        [Fact]
+        public void KeepLastEmptyLineOnContentEdit()
+        {
+            RefreshWorkData();
+            foreach (var path in new[] { Ja_UTF8_CRLF_TxtPath, Ja_UTF8_CRLF_EndsWithEmptyLine_TxtPath })
+            {
+                (var encoding, var newLine) = EncodingDetector.Detect(path);
+                int srcLineCount = MyFileReader.ReadAllLines(path, encoding, newLine).Count;
+                var pathTree = new PathTree();
+                pathTree.TryAdd(path, out string errorMessage);
+                var commands = new List<Command>();
+                if (Command.TryParse("s/ほげ/ホゲ/g", out var command)) commands.Add(command);
+                var runner = new CommandRunner(commands);
+                runner.Run(pathTree, CommandRunnerActionKind.Replace);
+                int lineCount = MyFileReader.ReadAllLines(path, encoding, newLine).Count;
+                Assert.Equal(srcLineCount, lineCount);
+            }
+        }
     }
 }
