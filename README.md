@@ -19,3 +19,11 @@ TODO
 ## License
 
 [zlib License](https://github.com/lpubsppop01/ReplaceText/raw/master/LICENSE.txt)
+
+This software uses the following NuGet packages:
+- [ReadJEnc 1.3.1.2](https://www.nuget.org/packages/ReadJEnc/)  
+  Copyright (c) 2017 hnx8  
+  Released under the [MIT License](https://github.com/hnx8/ReadJEnc/blob/master/LICENSE)
+- [System.Text.Encoding.CodePages 4.5.0](https://www.nuget.org/packages/System.Text.Encoding.CodePages/)  
+  Copyright (c) .NET Foundation and Contributors  
+  Released under the [MIT License](https://github.com/dotnet/corefx/blob/master/LICENSE.TXT)
