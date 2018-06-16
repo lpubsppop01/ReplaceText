@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using Xunit;
@@ -83,6 +84,22 @@ namespace lpubsppop01.ReplaceText.Tests
                 int lineCount = MyFileReader.ReadAllLines(path, encoding, newLine).Count;
                 Assert.Equal(srcLineCount, lineCount);
             }
+        }
+
+        [Fact]
+        public void WorkWithSedRegex()
+        {
+            RefreshWorkData();
+            string path = Ja_UTF8_CRLF_TxtPath;
+            var pathTree = new PathTree();
+            pathTree.TryAdd(path, out string errorMessage);
+            var commands = new List<Command>();
+            if (Command.TryParse(@"s/ほ\(げ\)/ホ\1/g", out var command)) commands.Add(command);
+            var runner = new CommandRunner(commands);
+            runner.Run(pathTree, CommandRunnerActionKind.Replace);
+            (var encoding, var newLine) = EncodingDetector.Detect(path);
+            var lines = MyFileReader.ReadAllLines(path, encoding, newLine);
+            Assert.Contains(lines, l => l.Contains("ホげ"));
         }
     }
 }

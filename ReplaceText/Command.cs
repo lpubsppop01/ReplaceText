@@ -34,8 +34,8 @@ namespace lpubsppop01.ReplaceText
             command = new Command
             {
                 Kind = CommandKind.Substitute,
-                Pattern = tokens[1],
-                Replacement = tokens[2],
+                Pattern = ConvertSedPatternToDotNetPattern(tokens[1]),
+                Replacement = ConvertSedReplacementToDotNetReplacement(tokens[2]),
                 Flags = CommandFlags.Global
             };
             return true;
@@ -57,6 +57,61 @@ namespace lpubsppop01.ReplaceText
                 }
             }
             yield return buf.ToString();
+        }
+
+        static string ConvertSedPatternToDotNetPattern(string pattern)
+        {
+            var dest = new List<char>();
+            bool backslash = false;
+            foreach (var c in pattern)
+            {
+                if (c == '\\')
+                {
+                    backslash = !backslash;
+                }
+                else if (c == '(' || c == ')')
+                {
+                    if (backslash)
+                    {
+                        backslash = false;
+                        dest.RemoveAt(dest.Count - 1);
+                    }
+                    else
+                    {
+                        dest.Add('\\');
+                    }
+                }
+                dest.Add(c);
+            }
+            return new string(dest.ToArray());
+        }
+
+        static string ConvertSedReplacementToDotNetReplacement(string replacement)
+        {
+            var dest = new List<char>();
+            bool backslash = false;
+            foreach (var c in replacement)
+            {
+                if (c == '\\')
+                {
+                    backslash = !backslash;
+                }
+                else if (c == '$')
+                {
+                    dest.Add('\\');
+                }
+                else if (c >= '0' && c <= '9')
+                {
+                    if (backslash)
+                    {
+                        backslash = false;
+                        dest.RemoveAt(dest.Count - 1);
+                        dest.Add('$');
+                    }
+                }
+                dest.Add(c);
+            }
+            return new string(dest.ToArray());
         }
     }
 }

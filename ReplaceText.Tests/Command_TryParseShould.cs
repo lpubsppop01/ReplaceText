@@ -11,5 +11,13 @@ namespace lpubsppop01.ReplaceText.Tests
         {
             Assert.True(Command.TryParse("s/hoge/piyo/g", out var command));
         }
+
+        [Fact]
+        public void ConvertSedRegexToDotNetRegex()
+        {
+            Assert.True(Command.TryParse(@"s/ho\([gG][eE]\)/\1ge/g", out var command));
+            Assert.Equal(@"ho([gG][eE])", command.Pattern);
+            Assert.Equal(@"$1ge", command.Replacement);
+        }
     }
 }
