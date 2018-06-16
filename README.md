@@ -6,7 +6,26 @@ A CLI tool to replace part of file contents, file names and directory names.
 
 ## Features
 
-TODO
+```powershell
+$rt = /path/to/lpubsppop01.ReplaceText.exe
+
+# "s" command like sed that targets filename and file content
+&$rt 's/hoge/piyo/g' hoge.txt    # Report only
+&$rt 's/hoge/piyo/g' hoge.txt -r # Replace existing file
+&$rt 's/hoge/piyo/g' hoge.txt -g # Generate new file "piyo.txt"
+
+# Process directory recursively
+&$rt 's/hoge/piyo/g' hoge_dir
+
+# Multi commands and multi targets
+&$rt 's/hoge/piyo/g' 's/piyo/fuga/g' hoge_dir piyo.txt
+
+# Regex pattern like sed
+&$rt 's/index-\([0-9]+\)/number-\1/g' hoge.txt
+
+# 日本語の文字コードを考慮しています
+&$rt 's/ほげ/ぴよ/g' ほげ.txt
+```
 
 ## Download
 
