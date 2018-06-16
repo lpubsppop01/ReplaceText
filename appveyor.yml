@@ -1,7 +1,7 @@
 version: 0.0.{build}
 image: Visual Studio 2017
 build_script:
-  - ps: dotnet publish -c release -r win-x64 -o ..\ReplaceText-win-x64
+  - ps: dotnet publish -c release -r win-x64 -o ..\ReplaceText-win-x64 ReplaceText\ReplaceText.csproj
 after_build:
   - 7z a ReplaceText-win-x64.zip ReplaceText-win-x64
 artifacts:
