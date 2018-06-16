@@ -108,6 +108,22 @@ namespace lpubsppop01.ReplaceText
             }
         }
 
+        public PathTreeNode FindNode(string path)
+        {
+            var tokens = path.Split(Path.DirectorySeparatorChar);
+            var curr = Root;
+            while (tokens.Any())
+            {
+                var token = tokens.First();
+                tokens = tokens.Skip(1).ToArray();
+                if (token == "") continue;
+                PathTreeNode child;
+                if (!curr.Children.TryGetValue(token, out child)) return null;
+                curr = child;
+            }
+            return curr;
+        }
+
         public void Traverse(Action<PathTreeNode> onNode)
         {
             Traverse(Root, onNode);

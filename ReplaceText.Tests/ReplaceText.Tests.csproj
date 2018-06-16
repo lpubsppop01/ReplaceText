@@ -7,7 +7,7 @@
 
     <AssemblyName>lpubsppop01.ReplaceText.Tests</AssemblyName>
 
-    <RootNamespace>lpubsppop01ReplaceText.Tests</RootNamespace>
+    <RootNamespace>lpubsppop01.ReplaceText.Tests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,6 +19,22 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ReplaceText\ReplaceText.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="TestData\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="TestData\ja_utf8withbom_crlf.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\ja_utf8_crlf.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\ja_utf8_crlf_endswithemptyline.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
