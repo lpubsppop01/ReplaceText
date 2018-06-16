@@ -22,10 +22,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="TestData\" />
+    <Folder Include="TestData\Hoge\" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="TestData\Hoge\Hoge.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="TestData\ja_eucjp_lf.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

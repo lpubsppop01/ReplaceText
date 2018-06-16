@@ -49,6 +49,76 @@ namespace lpubsppop01.ReplaceText.Tests
         }
 
         [Fact]
+        public void ReplaceFileContentAndName()
+        {
+            RefreshWorkData();
+            string path = Path.Combine(WorkDataPath, @"Hoge\Hoge.txt");
+            var pathTree = new PathTree();
+            pathTree.TryAdd(path, out string errorMessage);
+            var commands = new List<Command>();
+            if (Command.TryParse(@"s/Hoge/Piyo/g", out var command)) commands.Add(command);
+            var runner = new CommandRunner(commands);
+            runner.Run(pathTree, CommandRunnerActionKind.Replace);
+            Assert.True(Directory.Exists(Path.Combine(WorkDataPath, @"Hoge")));
+            Assert.False(Directory.Exists(Path.Combine(WorkDataPath, @"Piyo")));
+            Assert.False(File.Exists(Path.Combine(WorkDataPath, @"Hoge\Hoge.txt")));
+            Assert.Equal("Piyo", File.ReadAllText(Path.Combine(WorkDataPath, @"Hoge\Piyo.txt")));
+        }
+
+        [Fact]
+        public void ReplaceDirectoryNameAndDescendant()
+        {
+            RefreshWorkData();
+            string path = Path.Combine(WorkDataPath, @"Hoge");
+            var pathTree = new PathTree();
+            pathTree.TryAdd(path, out string errorMessage);
+            var commands = new List<Command>();
+            if (Command.TryParse(@"s/Hoge/Piyo/g", out var command)) commands.Add(command);
+            var runner = new CommandRunner(commands);
+            runner.Run(pathTree, CommandRunnerActionKind.Replace);
+            Assert.False(Directory.Exists(Path.Combine(WorkDataPath, @"Hoge")));
+            Assert.True(Directory.Exists(Path.Combine(WorkDataPath, @"Piyo")));
+            Assert.False(File.Exists(Path.Combine(WorkDataPath, @"Piyo\Hoge.txt")));
+            Assert.Equal("Piyo", File.ReadAllText(Path.Combine(WorkDataPath, @"Piyo\Piyo.txt")));
+        }
+
+        [Fact]
+        public void GenerateFile()
+        {
+            RefreshWorkData();
+            string path = Path.Combine(WorkDataPath, @"Hoge\Hoge.txt");
+            var pathTree = new PathTree();
+            pathTree.TryAdd(path, out string errorMessage);
+            var commands = new List<Command>();
+            if (Command.TryParse(@"s/Hoge/Piyo/g", out var command)) commands.Add(command);
+            var runner = new CommandRunner(commands);
+            runner.Run(pathTree, CommandRunnerActionKind.Genearte);
+            Assert.True(Directory.Exists(Path.Combine(WorkDataPath, @"Hoge")));
+            Assert.False(Directory.Exists(Path.Combine(WorkDataPath, @"Piyo")));
+            Assert.Equal("Hoge", File.ReadAllText(Path.Combine(WorkDataPath, @"Hoge\Hoge.txt")));
+            Assert.Equal("Piyo", File.ReadAllText(Path.Combine(WorkDataPath, @"Hoge\Piyo.txt")));
+        }
+
+        [Fact]
+        public void GenerateDirectoryAndDescendant()
+        {
+            RefreshWorkData();
+            string path = Path.Combine(WorkDataPath, @"Hoge");
+            var pathTree = new PathTree();
+            pathTree.TryAdd(path, out string errorMessage);
+            var commands = new List<Command>();
+            if (Command.TryParse(@"s/Hoge/Piyo/g", out var command)) commands.Add(command);
+            var runner = new CommandRunner(commands);
+            runner.Run(pathTree, CommandRunnerActionKind.Genearte);
+            Assert.True(Directory.Exists(Path.Combine(WorkDataPath, @"Hoge")));
+            Assert.True(Directory.Exists(Path.Combine(WorkDataPath, @"Piyo")));
+            Assert.False(File.Exists(Path.Combine(WorkDataPath, @"Hoge\Piyo.txt")));
+            Assert.False(File.Exists(Path.Combine(WorkDataPath, @"Piyo\Hoge.txt")));
+            Assert.Equal("Hoge", File.ReadAllText(Path.Combine(WorkDataPath, @"Hoge\Hoge.txt")));
+            Assert.Equal("Piyo", File.ReadAllText(Path.Combine(WorkDataPath, @"Piyo\Piyo.txt")));
+        }
+
+        [Fact]
         public void KeepCharactorEncodingOnContentEdit()
         {
             RefreshWorkData();
