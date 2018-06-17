@@ -11,23 +11,22 @@ namespace lpubsppop01.ReplaceText.Tests
     public class PathTree_TryAddShould
     {
         string TestDataPath;
-        string JaUtf8CrlfTxtPath;
-        string JaUtf8CrlfEndsWithEmptyLineTxtPath;
-        string JaUtf8WithBomCrlfTxtPath;
+        string Ja_UTF8_CRLF_TxtPath;
+        string Ja_UTF8_CRLF_EndsWithEmptyLine_TxtPath;
+        string Ja_UTF8WithBom_CRLF_TxtPath;
         List<string> AllExistingPaths;
-
         string NotExistingPath;
 
         public PathTree_TryAddShould()
         {
             string here = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             TestDataPath = Path.Combine(here, "TestData");
-            JaUtf8CrlfTxtPath = Path.Combine(here, "TestData/ja_utf8_crlf.txt");
-            JaUtf8CrlfEndsWithEmptyLineTxtPath = Path.Combine(here, "TestData/ja_utf8_crlf_endswithemptyline.txt");
-            JaUtf8WithBomCrlfTxtPath = Path.Combine(here, "TestData/ja_utf8withbom_crlf.txt");
+            Ja_UTF8_CRLF_TxtPath = Path.Combine(here, "TestData/ja_utf8_crlf.txt");
+            Ja_UTF8_CRLF_EndsWithEmptyLine_TxtPath = Path.Combine(here, "TestData/ja_utf8_crlf_endswithemptyline.txt");
+            Ja_UTF8WithBom_CRLF_TxtPath = Path.Combine(here, "TestData/ja_utf8withbom_crlf.txt");
             AllExistingPaths = new List<string>
             {
-                TestDataPath, JaUtf8CrlfTxtPath, JaUtf8CrlfEndsWithEmptyLineTxtPath, JaUtf8WithBomCrlfTxtPath
+                TestDataPath, Ja_UTF8_CRLF_TxtPath, Ja_UTF8_CRLF_EndsWithEmptyLine_TxtPath, Ja_UTF8WithBom_CRLF_TxtPath
             };
             NotExistingPath = Path.Combine(here, "TestData/not_existing.txt");
         }
@@ -36,9 +35,9 @@ namespace lpubsppop01.ReplaceText.Tests
         public void SucceedGivenExistingFilePath()
         {
             var pathTree = new PathTree();
-            Assert.True(pathTree.TryAdd(JaUtf8CrlfTxtPath, out string errorMessage));
+            Assert.True(pathTree.TryAdd(Ja_UTF8_CRLF_TxtPath, out string errorMessage));
             Assert.False(pathTree.FindNode(TestDataPath).IsTarget);
-            Assert.True(pathTree.FindNode(JaUtf8CrlfTxtPath).IsTarget);
+            Assert.True(pathTree.FindNode(Ja_UTF8_CRLF_TxtPath).IsTarget);
         }
 
         [Fact]

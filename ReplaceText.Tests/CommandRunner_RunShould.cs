@@ -19,9 +19,6 @@ namespace lpubsppop01.ReplaceText.Tests
         string Ja_UTF8WithBom_CRLF_TxtPath;
         string Ja_SJIS_CRLF_TxtPath;
         string Ja_EUCJP_LF_TxtPath;
-        List<string> AllExistingPaths;
-
-        string NotExistingPath;
 
         public CommandRunner_RunShould()
         {
@@ -33,10 +30,6 @@ namespace lpubsppop01.ReplaceText.Tests
             Ja_UTF8WithBom_CRLF_TxtPath = Path.Combine(here, "WorkData/ja_utf8withbom_crlf.txt");
             Ja_SJIS_CRLF_TxtPath = Path.Combine(here, "WorkData/ja_sjis_crlf.txt");
             Ja_EUCJP_LF_TxtPath = Path.Combine(here, "WorkData/ja_eucjp_lf.txt");
-            AllExistingPaths = new List<string>
-            {
-                TestDataPath, Ja_UTF8_CRLF_TxtPath, Ja_UTF8_CRLF_EndsWithEmptyLine_TxtPath, Ja_UTF8WithBom_CRLF_TxtPath
-            };
         }
 
         void RefreshWorkData()
