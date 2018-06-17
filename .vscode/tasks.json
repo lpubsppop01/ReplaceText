@@ -10,6 +10,21 @@
                 "${workspaceFolder}/ReplaceText/ReplaceText.csproj"
             ],
             "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "build-wsl",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "publish",
+                "${workspaceFolder}/ReplaceText.Tests/ReplaceText.Tests.csproj",
+                "-o",
+                "${workspaceFolder}/ReplaceText.Tests/bin/wsl",
+                "/p:StartupObject=lpubsppop01.ReplaceText.Tests.Program"
+            ],
+            "dependsOn": [
+                "build"
+            ]
         }
     ]
 }

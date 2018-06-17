@@ -21,15 +21,15 @@ namespace lpubsppop01.ReplaceText.Tests
         public PathTree_TryAddShould()
         {
             string here = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            TestDataPath = Path.Combine(here, @"TestData");
-            JaUtf8CrlfTxtPath = Path.Combine(here, @"TestData\ja_utf8_crlf.txt");
-            JaUtf8CrlfEndsWithEmptyLineTxtPath = Path.Combine(here, @"TestData\ja_utf8_crlf_endswithemptyline.txt");
-            JaUtf8WithBomCrlfTxtPath = Path.Combine(here, @"TestData\ja_utf8withbom_crlf.txt");
+            TestDataPath = Path.Combine(here, "TestData");
+            JaUtf8CrlfTxtPath = Path.Combine(here, "TestData/ja_utf8_crlf.txt");
+            JaUtf8CrlfEndsWithEmptyLineTxtPath = Path.Combine(here, "TestData/ja_utf8_crlf_endswithemptyline.txt");
+            JaUtf8WithBomCrlfTxtPath = Path.Combine(here, "TestData/ja_utf8withbom_crlf.txt");
             AllExistingPaths = new List<string>
             {
                 TestDataPath, JaUtf8CrlfTxtPath, JaUtf8CrlfEndsWithEmptyLineTxtPath, JaUtf8WithBomCrlfTxtPath
             };
-            NotExistingPath = Path.Combine(here, @"TestData\not_existing.txt");
+            NotExistingPath = Path.Combine(here, "TestData/not_existing.txt");
         }
 
         [Fact]
@@ -64,9 +64,9 @@ namespace lpubsppop01.ReplaceText.Tests
             try
             {
                 var pathTree = new PathTree();
-                Assert.True(pathTree.TryAdd(@"Hoge\Hoge.txt", out string errorMessage1));
-                Assert.True(pathTree.TryAdd(Path.Combine(TestDataPath, @"Hoge"), out string errorMessage2));
-                Assert.Equal(pathTree.FindNode(@"Hoge\Hoge.txt"), pathTree.FindNode(Path.Combine(TestDataPath, @"Hoge\Hoge.txt")));
+                Assert.True(pathTree.TryAdd("Hoge/Hoge.txt", out string errorMessage1));
+                Assert.True(pathTree.TryAdd(Path.Combine(TestDataPath, "Hoge"), out string errorMessage2));
+                Assert.Equal(pathTree.FindNode("Hoge/Hoge.txt"), pathTree.FindNode(Path.Combine(TestDataPath, "Hoge/Hoge.txt")));
             }
             finally
             {

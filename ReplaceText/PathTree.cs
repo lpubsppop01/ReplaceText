@@ -57,8 +57,7 @@ namespace lpubsppop01.ReplaceText
                 errorMessage = "Not found: " + path;
                 return false;
             }
-            string absPath = Path.GetFullPath(path);
-            var tokens = absPath.Split(Path.DirectorySeparatorChar);
+            var tokens = TokenizePath(path);
             var curr = Root;
             while (tokens.Any())
             {
@@ -76,13 +75,28 @@ namespace lpubsppop01.ReplaceText
             }
             if (curr.IsDirectory)
             {
-                TraverseDirectory(curr, absPath);
+                TraverseDirectory(curr);
             }
             errorMessage = "";
             return true;
         }
 
-        static void TraverseDirectory(PathTreeNode directoryNode, string directoryPath)
+        static string[] TokenizePath(string path)
+        {
+            string absPath = Path.GetFullPath(path);
+            var tokens = absPath.Split(Path.DirectorySeparatorChar);
+            if (absPath.StartsWith("/"))
+            {
+                tokens = new[] { "/" }.Concat(tokens).ToArray();
+            }
+            else if (absPath.StartsWith(@"\\"))
+            {
+                tokens = new[] { @"\\" }.Concat(tokens).ToArray();
+            }
+            return tokens;
+        }
+
+        static void TraverseDirectory(PathTreeNode directoryNode)
         {
             void onChild(string childPath, bool childIsDirectory)
             {
@@ -95,15 +109,15 @@ namespace lpubsppop01.ReplaceText
                 childNode.IsTarget = true;
                 if (childIsDirectory)
                 {
-                    TraverseDirectory(childNode, childPath);
+                    TraverseDirectory(childNode);
                 }
             }
 
-            foreach (var childPath in Directory.EnumerateFiles(directoryPath))
+            foreach (var childPath in Directory.EnumerateFiles(directoryNode.Path))
             {
                 onChild(childPath, childIsDirectory: false);
             }
-            foreach (var childPath in Directory.EnumerateDirectories(directoryPath))
+            foreach (var childPath in Directory.EnumerateDirectories(directoryNode.Path))
             {
                 onChild(childPath, childIsDirectory: true);
             }
@@ -111,8 +125,7 @@ namespace lpubsppop01.ReplaceText
 
         public PathTreeNode FindNode(string path)
         {
-            string absPath = Path.GetFullPath(path);
-            var tokens = absPath.Split(Path.DirectorySeparatorChar);
+            var tokens = TokenizePath(path);
             var curr = Root;
             while (tokens.Any())
             {
