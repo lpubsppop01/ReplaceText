@@ -29,7 +29,9 @@ $rt = /path/to/lpubsppop01.ReplaceText.exe
 
 ## Download
 
-[ReplaceText Latest Build - AppVeyor](https://ci.appveyor.com/api/projects/lpubsppop01/replacetext/artifacts/ReplaceText-win-x64.zip)
+Latest Build:
+- [ReplaceText-win-x64.zip](https://ci.appveyor.com/api/projects/lpubsppop01/replacetext/artifacts/ReplaceText-win-x64.zip)
+- [ReplaceText-linux-x64.zip](https://ci.appveyor.com/api/projects/lpubsppop01/replacetext/artifacts/ReplaceText-linux-x64.zip)
 
 ## Author
 
