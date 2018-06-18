@@ -17,6 +17,7 @@ namespace lpubsppop01.ReplaceText
     class CommandRunner
     {
         IList<Command> commands;
+        bool messageIsDisabled;
 
         public CommandRunner(IList<Command> commands)
         {
@@ -33,6 +34,39 @@ namespace lpubsppop01.ReplaceText
             });
         }
 
+        public void Run(Stream input, Stream output)
+        {
+            string tempFilePath = Path.GetTempFileName();
+            messageIsDisabled = true;
+            try
+            {
+                using (var tempOutput = new FileStream(tempFilePath, FileMode.Open))
+                {
+                    input.CopyTo(tempOutput);
+                }
+
+                var pathTree = new PathTree();
+                pathTree.TryAdd(tempFilePath, out string errorMessage);
+                Run(pathTree, CommandRunnerActionKind.Replace);
+
+                using (var tempInput = new FileStream(tempFilePath, FileMode.Open))
+                {
+                    tempInput.CopyTo(output);
+                }
+            }
+            finally
+            {
+                messageIsDisabled = false;
+                File.Delete(tempFilePath);
+            }
+        }
+
+        void Console_WriteLine(string format, params object[] args)
+        {
+            if (messageIsDisabled) return;
+            Console.WriteLine(format, args);
+        }
+
         void ReplaceName(CommandRunnerActionKind actionKind, PathTreeNode node)
         {
             string resultName = commands.Aggregate(node.Name, (n, c) => Regex.Replace(n, c.Pattern, c.Replacement));
@@ -41,9 +75,9 @@ namespace lpubsppop01.ReplaceText
             string kindLabel = node.IsDirectory ? "Directory name" : "Filename";
             string prevPath = node.Path;
             node.Name = resultName;
-            Console.WriteLine("{0}:", kindLabel);
-            Console.WriteLine("  From: {0}", prevPath);
-            Console.WriteLine("  To  : {0}", node.Path);
+            Console_WriteLine("{0}:", kindLabel);
+            Console_WriteLine("  From: {0}", prevPath);
+            Console_WriteLine("  To  : {0}", node.Path);
             if (actionKind == CommandRunnerActionKind.Replace)
             {
                 if (node.IsDirectory)
@@ -86,10 +120,10 @@ namespace lpubsppop01.ReplaceText
 
                 if (!replaced)
                 {
-                    Console.WriteLine("Content of \"{0}\":", node.Name);
+                    Console_WriteLine("Content of \"{0}\":", node.Name);
                     replaced = true;
                 }
-                Console.WriteLine("  {0:0000}: {1}", i + 1, resultLine);
+                Console_WriteLine("  {0:0000}: {1}", i + 1, resultLine);
             }
             if (actionKind == CommandRunnerActionKind.Replace && replaced ||
                 actionKind == CommandRunnerActionKind.Genearte)

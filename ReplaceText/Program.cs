@@ -44,14 +44,27 @@ namespace lpubsppop01.ReplaceText
                 {
                     actionKind = CommandRunnerActionKind.Genearte;
                 }
-                if (!commands.Any() || !pathTree.HasValue)
+                if (!commands.Any())
                 {
-                    Console.WriteLine("Error: Command and path are required at least each one.");
+                    Console.WriteLine("Error: Command is required at least one.");
                     app.ShowHelp();
                     return 1;
                 }
                 var runner = new CommandRunner(commands);
-                runner.Run(pathTree, actionKind);
+                if (pathTree.HasValue)
+                {
+                    runner.Run(pathTree, actionKind);
+                }
+                else
+                {
+                    using (var input = Console.OpenStandardInput())
+                    {
+                        using (var output = Console.OpenStandardOutput())
+                        {
+                            runner.Run(input, output);
+                        }
+                    }
+                }
                 return 0;
             });
             app.Execute(args);

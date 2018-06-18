@@ -6,6 +6,7 @@ A CLI tool to replace part of file contents, file names and directory names.
 
 ## Features
 
+Example in PowerShell:
 ```powershell
 Set-Alias -Name rt -Value '/path/to/lpubsppop01.ReplaceText.exe'
 
@@ -25,6 +26,16 @@ rt 's/index-\([0-9]+\)/number-\1/g' hoge.txt
 
 # 日本語の文字コードを考慮しています
 rt 's/ほげ/ぴよ/g' ほげ.txt
+```
+
+Example in bash:
+```bash
+alias rt=/path/to/lpubsppop01.ReplaceText
+
+# Work as filter like sed
+cat hoge.txt | rt s/hoge/piyo/g > piyo.txt
+
+# The other ways also work like PowerShell
 ```
 
 ## Download

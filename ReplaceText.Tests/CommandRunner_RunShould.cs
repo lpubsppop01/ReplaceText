@@ -174,5 +174,30 @@ namespace lpubsppop01.ReplaceText.Tests
             var lines = MyFileReader.ReadAllLines(path, encoding, newLine);
             Assert.Contains(lines, l => l.Contains("ホげ"));
         }
+
+        [Fact]
+        public void WorkAsStreamFilter()
+        {
+            RefreshWorkData();
+            var commands = new List<Command>();
+            if (Command.TryParse("s/ほげ/ホゲ/g", out var command)) commands.Add(command);
+            var runner = new CommandRunner(commands);
+            string tempFilePath = Path.GetTempFileName();
+            try
+            {
+                using (var output = new FileStream(tempFilePath, FileMode.Open))
+                {
+                    using (var input = new FileStream(Ja_UTF8_CRLF_TxtPath, FileMode.Open))
+                    {
+                        runner.Run(input, output);
+                    }
+                }
+                Assert.StartsWith("ホゲ", File.ReadAllText(tempFilePath));
+            }
+            finally
+            {
+                File.Delete(tempFilePath);
+            }
+        }
     }
 }
