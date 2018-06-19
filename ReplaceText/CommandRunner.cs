@@ -108,9 +108,9 @@ namespace lpubsppop01.ReplaceText
 
             bool replaced = false;
             string srcPath = actionKind == CommandRunnerActionKind.Replace ? node.Path : node.OriginalPath;
-            (var srcEncoding, var srcNewLine) = EncodingDetector.Detect(srcPath);
-            if (srcEncoding == null || srcNewLine == null) return;
-            var lines = MyFileReader.ReadAllLines(srcPath, srcEncoding, srcNewLine);
+            var srcInfo = new TextFileInfo(srcPath);
+            if (!srcInfo.IsValid) return;
+            var lines = srcInfo.ReadAllLines();
             var destLines = new List<string>();
             for (int i = 0; i < lines.Count; ++i)
             {
@@ -128,11 +128,11 @@ namespace lpubsppop01.ReplaceText
             if (actionKind == CommandRunnerActionKind.Replace && replaced ||
                 actionKind == CommandRunnerActionKind.Genearte)
             {
-                using (var writer = new StreamWriter(node.Path, /* append: */ false, srcEncoding))
+                using (var writer = new StreamWriter(node.Path, /* append: */ false, srcInfo.Encoding))
                 {
                     for (int i = 0; i < destLines.Count; ++i)
                     {
-                        writer.Write(destLines[i] + ((i != destLines.Count - 1) ? srcNewLine : ""));
+                        writer.Write(destLines[i] + ((i != destLines.Count - 1) ? srcInfo.NewLine : ""));
                     }
                 }
             }

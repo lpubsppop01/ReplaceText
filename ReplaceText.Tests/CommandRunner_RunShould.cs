@@ -127,16 +127,16 @@ namespace lpubsppop01.ReplaceText.Tests
             RefreshWorkData();
             foreach (var path in new[] { Ja_UTF8_CRLF_TxtPath, Ja_UTF8WithBom_CRLF_TxtPath, Ja_SJIS_CRLF_TxtPath, Ja_EUCJP_LF_TxtPath })
             {
-                (var srcEncoding, var srcNewLine) = EncodingDetector.Detect(path);
+                var srcInfo = new TextFileInfo(path);
                 var pathTree = new PathTree();
                 pathTree.TryAdd(path, out string errorMessage);
                 var commands = new List<Command>();
                 if (Command.TryParse("s/ほげ/ホゲ/g", out var command)) commands.Add(command);
                 var runner = new CommandRunner(commands);
                 runner.Run(pathTree, CommandRunnerActionKind.Replace);
-                (var encoding, var newLine) = EncodingDetector.Detect(path);
-                Assert.Equal(srcEncoding, encoding);
-                Assert.Equal(srcNewLine, newLine);
+                var editedInfo = new TextFileInfo(path);
+                Assert.Equal(srcInfo.Encoding, editedInfo.Encoding);
+                Assert.Equal(srcInfo.NewLine, editedInfo.NewLine);
             }
         }
 
@@ -146,15 +146,15 @@ namespace lpubsppop01.ReplaceText.Tests
             RefreshWorkData();
             foreach (var path in new[] { Ja_UTF8_CRLF_TxtPath, Ja_UTF8_CRLF_EndsWithEmptyLine_TxtPath })
             {
-                (var encoding, var newLine) = EncodingDetector.Detect(path);
-                int srcLineCount = MyFileReader.ReadAllLines(path, encoding, newLine).Count;
+                var fileInfo = new TextFileInfo(path);
+                int srcLineCount = fileInfo.ReadAllLines().Count;
                 var pathTree = new PathTree();
                 pathTree.TryAdd(path, out string errorMessage);
                 var commands = new List<Command>();
                 if (Command.TryParse("s/ほげ/ホゲ/g", out var command)) commands.Add(command);
                 var runner = new CommandRunner(commands);
                 runner.Run(pathTree, CommandRunnerActionKind.Replace);
-                int lineCount = MyFileReader.ReadAllLines(path, encoding, newLine).Count;
+                int lineCount = fileInfo.ReadAllLines().Count;
                 Assert.Equal(srcLineCount, lineCount);
             }
         }
@@ -170,8 +170,8 @@ namespace lpubsppop01.ReplaceText.Tests
             if (Command.TryParse(@"s/ほ\(げ\)/ホ\1/g", out var command)) commands.Add(command);
             var runner = new CommandRunner(commands);
             runner.Run(pathTree, CommandRunnerActionKind.Replace);
-            (var encoding, var newLine) = EncodingDetector.Detect(path);
-            var lines = MyFileReader.ReadAllLines(path, encoding, newLine);
+            var fileInfo = new TextFileInfo(path);
+            var lines = fileInfo.ReadAllLines();
             Assert.Contains(lines, l => l.Contains("ホげ"));
         }
 
