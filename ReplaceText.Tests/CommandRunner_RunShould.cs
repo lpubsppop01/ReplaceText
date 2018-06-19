@@ -192,7 +192,7 @@ namespace lpubsppop01.ReplaceText.Tests
                         runner.Run(input, output);
                     }
                 }
-                Assert.StartsWith("ホゲ", File.ReadAllText(tempFilePath));
+                Assert.Equal(File.ReadAllText(Ja_UTF8_CRLF_TxtPath).Replace("ほげ", "ホゲ"), File.ReadAllText(tempFilePath));
             }
             finally
             {
