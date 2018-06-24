@@ -5,9 +5,9 @@
 
     <IsPackable>false</IsPackable>
 
-    <AssemblyName>lpubsppop01.ReplaceText.Tests</AssemblyName>
+    <AssemblyName>Lpubsppop01.ReplaceText.Tests</AssemblyName>
 
-    <RootNamespace>lpubsppop01.ReplaceText.Tests</RootNamespace>
+    <RootNamespace>Lpubsppop01.ReplaceText.Tests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

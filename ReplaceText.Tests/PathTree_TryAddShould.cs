@@ -1,4 +1,4 @@
-﻿using lpubsppop01.ReplaceText;
+﻿using Lpubsppop01.ReplaceText;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using Xunit;
 
-namespace lpubsppop01.ReplaceText.Tests
+namespace Lpubsppop01.ReplaceText.Tests
 {
     public class PathTree_TryAddShould
     {

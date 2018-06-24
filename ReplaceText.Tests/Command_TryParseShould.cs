@@ -1,8 +1,8 @@
-using lpubsppop01.ReplaceText;
+using Lpubsppop01.ReplaceText;
 using System;
 using Xunit;
 
-namespace lpubsppop01.ReplaceText.Tests
+namespace Lpubsppop01.ReplaceText.Tests
 {
     public class Command_TryParseShould
     {

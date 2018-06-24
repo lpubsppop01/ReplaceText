@@ -8,7 +8,7 @@ A CLI tool to replace part of file contents, file names and directory names.
 
 Example in PowerShell:
 ```powershell
-Set-Alias -Name rt -Value '/path/to/lpubsppop01.ReplaceText.exe'
+Set-Alias -Name rt -Value '/path/to/Lpubsppop01.ReplaceText.exe'
 
 # "s" command like sed that targets filename and file content
 rt 's/hoge/piyo/g' hoge.txt    # Report only
@@ -30,7 +30,7 @@ rt 's/ほげ/ぴよ/g' ほげ.txt
 
 Example in bash:
 ```bash
-alias rt=/path/to/lpubsppop01.ReplaceText
+alias rt=/path/to/Lpubsppop01.ReplaceText
 
 # Work as filter like sed
 cat hoge.txt | rt s/hoge/piyo/g > piyo.txt

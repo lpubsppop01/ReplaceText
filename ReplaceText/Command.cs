@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace lpubsppop01.ReplaceText
+namespace Lpubsppop01.ReplaceText
 {
     enum CommandKind
     {

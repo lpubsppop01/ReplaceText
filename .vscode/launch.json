@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/ReplaceText/bin/Debug/netcoreapp2.0/lpubsppop01.ReplaceText.dll",
+            "program": "${workspaceFolder}/ReplaceText/bin/Debug/netcoreapp2.0/Lpubsppop01.ReplaceText.dll",
             "args": [],
             "cwd": "${workspaceFolder}/ReplaceText",
             // For more information about the 'console' field, see https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md#console-terminal-window
@@ -29,7 +29,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build-wsl",
-            "program": "/mnt/d/work/Source/Repos/ReplaceText/ReplaceText.Tests/bin/wsl/lpubsppop01.ReplaceText.Tests.dll",
+            "program": "/mnt/d/work/Source/Repos/ReplaceText/ReplaceText.Tests/bin/wsl/Lpubsppop01.ReplaceText.Tests.dll",
             "args": [],
             "cwd": "/mnt/d/work/Source/Repos/ReplaceText",
             "stopAtEntry": false,

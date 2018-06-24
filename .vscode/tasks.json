@@ -20,7 +20,7 @@
                 "${workspaceFolder}/ReplaceText.Tests/ReplaceText.Tests.csproj",
                 "-o",
                 "${workspaceFolder}/ReplaceText.Tests/bin/wsl",
-                "/p:StartupObject=lpubsppop01.ReplaceText.Tests.Program"
+                "/p:StartupObject=Lpubsppop01.ReplaceText.Tests.Program"
             ],
             "dependsOn": [
                 "build"

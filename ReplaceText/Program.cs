@@ -5,9 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("lpubsppop01.ReplaceText.Tests")]
+[assembly: InternalsVisibleTo("Lpubsppop01.ReplaceText.Tests")]
 
-namespace lpubsppop01.ReplaceText
+namespace Lpubsppop01.ReplaceText
 {
     class Program
     {

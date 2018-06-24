@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using Xunit;
 
-namespace lpubsppop01.ReplaceText.Tests
+namespace Lpubsppop01.ReplaceText.Tests
 {
     public class CommandRunner_RunShould
     {

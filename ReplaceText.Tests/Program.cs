@@ -1,6 +1,6 @@
 #if false
 
-namespace lpubsppop01.ReplaceText.Tests
+namespace Lpubsppop01.ReplaceText.Tests
 {
     class Program
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace lpubsppop01.ReplaceText
+namespace Lpubsppop01.ReplaceText
 {
     class TextFileInfo
     {
