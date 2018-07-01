@@ -44,16 +44,26 @@ namespace Lpubsppop01.ReplaceText
         static IEnumerable<string> SplitBySeprator(string text)
         {
             var buf = new StringBuilder();
+            bool backslash = false;
             for (int i = 0; i < text.Length; ++i)
             {
-                if (text[i] == '/' && (i == 0 || text[i - 1] != '\\'))
+                if (text[i] == '\\')
                 {
-                    yield return buf.ToString();
-                    buf.Clear();
+                    buf.Append(text[i]);
+                    backslash = !backslash;
                 }
                 else
                 {
-                    buf.Append(text[i]);
+                    if (text[i] == '/' && !backslash)
+                    {
+                        yield return buf.ToString();
+                        buf.Clear();
+                    }
+                    else
+                    {
+                        buf.Append(text[i]);
+                    }
+                    backslash = false;
                 }
             }
             yield return buf.ToString();

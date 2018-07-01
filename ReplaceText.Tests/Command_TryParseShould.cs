@@ -9,7 +9,8 @@ namespace Lpubsppop01.ReplaceText.Tests
         [Fact]
         public void ReturnTrueGivenSubstituteGlobalCommand()
         {
-            Assert.True(Command.TryParse("s/hoge/piyo/g", out var command));
+            Assert.True(Command.TryParse("s/hoge/piyo/g", out var command1));
+            Assert.True(Command.TryParse(@"s/\\/\//g", out var command2));
         }
 
         [Fact]
