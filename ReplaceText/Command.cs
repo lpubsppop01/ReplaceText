@@ -119,6 +119,14 @@ namespace Lpubsppop01.ReplaceText
                         dest.Add('$');
                     }
                 }
+                else if (c == '/')
+                {
+                    if (backslash)
+                    {
+                        backslash = false;
+                        dest.RemoveAt(dest.Count - 1);
+                    }
+                }
                 dest.Add(c);
             }
             return new string(dest.ToArray());

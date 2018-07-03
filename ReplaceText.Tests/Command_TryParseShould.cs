@@ -9,8 +9,9 @@ namespace Lpubsppop01.ReplaceText.Tests
         [Fact]
         public void ReturnTrueGivenSubstituteGlobalCommand()
         {
-            Assert.True(Command.TryParse("s/hoge/piyo/g", out var command1));
-            Assert.True(Command.TryParse(@"s/\\/\//g", out var command2));
+            Command c1, c2;
+            Assert.True(Command.TryParse("s/hoge/piyo/g", out c1) && c1.Pattern == "hoge" && c1.Replacement == "piyo");
+            Assert.True(Command.TryParse(@"s/\\/\//g", out c2) && c2.Pattern == @"\\" && c2.Replacement == "/");
         }
 
         [Fact]
