@@ -30,7 +30,7 @@ namespace Lpubsppop01.ReplaceText
             Path = path;
             (var encoding, var newLine) = DetectEncoding(path);
             Encoding = encoding;
-            NewLineKind = newLine.ToNewLineKind();
+            NewLineKind = newLine.ToNewLineKind() ?? NewLineKind.CRLF;
         }
 
         public string Path { get; private set; }
@@ -67,7 +67,7 @@ namespace Lpubsppop01.ReplaceText
             }
         }
 
-        public static NewLineKind ToNewLineKind(this string newLineStr)
+        public static NewLineKind? ToNewLineKind(this string newLineStr)
         {
             if (newLineStr == "\r\n")
             {
@@ -77,13 +77,13 @@ namespace Lpubsppop01.ReplaceText
             {
                 return NewLineKind.LF;
             }
-            throw new ArgumentException("The passed newLineStr value is not new line characters.");
+            return null;
         }
 
         public static NewLineKind? DetectNewLineKind(this string str)
         {
             int iLF = str.IndexOf('\n');
-            if (iLF == -1) return NewLineKind.CRLF;
+            if (iLF == -1) return null;
             if (iLF == 0) return NewLineKind.LF;
             return (str[iLF - 1] == '\r') ? NewLineKind.CRLF : NewLineKind.LF;
         }
